@@ -1,0 +1,10 @@
+<app-header (rsEmit)="changeValue($event)"></app-header>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <!-- <app-recipes *ngIf="recipesView"></app-recipes>
+      <app-shopping-list *ngIf="shoppingView"></app-shopping-list> -->
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
