@@ -7,10 +7,5 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   recipesView : boolean = true;
-  shoppingView : boolean = false;
-
-  changeValue(booleanValue:{r:boolean;s:boolean;}){
-    this.recipesView=booleanValue.r;
-    this.shoppingView=booleanValue.s;
-  }
+  shoppingView : boolean = false;ś
 }
