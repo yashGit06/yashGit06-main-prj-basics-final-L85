@@ -7,5 +7,5 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   recipesView : boolean = true;
-  shoppingView : boolean = false;ś
+  shoppingView : boolean = false;
 }
