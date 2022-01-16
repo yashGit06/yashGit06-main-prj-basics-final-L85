@@ -4,7 +4,7 @@
             <div class="row">
                 <div class="col-xs-12">
                     <button type="submit" class="btn btn-success mr-2" [disabled]="!recipeGroup.valid">Save</button>
-                    <button type="button" class="btn btn-danger">Cancel</button>
+                    <button type="button" class="btn btn-danger" (click)="onCancel()">Cancel</button>
                 </div>
             </div>
 
@@ -21,24 +21,30 @@
                 <div class="col-xs-12">
                     <div class="form-group">
                         <label for="impagePath">Image URL</label>
-                        <input type="text" id="impagePath" class="form-control" formControlName="imagePath">
+                        <input type="text" id="impagePath" class="form-control" formControlName="imagePath" #imagePath>
                     </div>
                 </div>
             </div>
 
             <div class="row">
-                <div class="col-xs-12">
+                <!-- <div class="col-xs-12">
                     <div class="form-group">
-                        <img src="" class="img-responsive">
+                        <img [src]="imagePath.value" class="img-responsive">
                     </div>
-                </div>
+                </div> -->
             </div>
 
             <div class="row">
-                <div class="col-xs-12">
+                <div class="col-xs-8">
                     <div class="form-group">
                         <label for="description">Description</label>
                         <textarea type="text" id="description" class="form-control" rows="6" formControlName="description"></textarea>
+                    </div>
+                </div>
+                <div class="col-xs-4">
+                    <div class="form-group">
+                        <label>Dish</label>
+                        <img [src]="imagePath.value" class="img-responsive">
                     </div>
                 </div>
             </div>

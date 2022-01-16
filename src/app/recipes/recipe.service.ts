@@ -48,4 +48,9 @@ export class RecipeService {
     this.recipes[idIndex]= newRec;
     this.recipeChanged.next(this.recipes.slice());
   }
+
+  searchAndRemove(index:number){
+    this.recipes.splice(index,1);
+    this.recipeChanged.next(this.recipes.slice());
+  }
 }
