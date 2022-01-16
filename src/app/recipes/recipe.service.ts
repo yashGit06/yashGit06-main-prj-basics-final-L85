@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 import { Ingredient } from '../shared/ingredient.model';
 import { Recipe } from './recipe.model';
 
@@ -8,6 +9,7 @@ import { Recipe } from './recipe.model';
 export class RecipeService {
   // recipeSelected = new EventEmitter<Recipe>();
   // recipeSelected = new Subject<Recipe>();
+  recipeChanged = new Subject<Recipe[]>();
 
   constructor() { }
   private recipes: Recipe[] = [
@@ -35,5 +37,16 @@ export class RecipeService {
 
   getRecipe(index:number){
     return this.recipes[index];
+  }
+
+  addRecipe(newRec : Recipe){
+    this.recipes.push(newRec);
+    this.recipeChanged.next(this.recipes.slice());
+  }
+
+  updateRecipe(idIndex : number,newRec : Recipe){
+    this.recipes[idIndex]= newRec;
+    this.recipeChanged.next(this.recipes.slice());
+    console.log("Updated : ",this.recipes);
   }
 }

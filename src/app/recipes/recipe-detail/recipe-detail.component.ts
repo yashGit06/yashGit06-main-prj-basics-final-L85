@@ -25,10 +25,10 @@ export class RecipeDetailComponent implements OnInit {
   }
 
   addToShoppingList(){
-    // for(let ing of this.recipeDataToDisplay.ings){
+    // for(let ing of this.recipeDataToDisplay.ingredients){
     //   this.shoppingListService.updateIngredients(ing);
     // }
-    this.shoppingListService.updateBulkIngredients(this.recipeDataToDisplay.ings);
+    this.shoppingListService.updateBulkIngredients(this.recipeDataToDisplay.ingredients);
   }
 
   onEditRecipe(){
