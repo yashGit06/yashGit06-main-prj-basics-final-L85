@@ -27,10 +27,18 @@ export class RecipeEditComponent implements OnInit {
     );
   }
 
+  addIngredients(){
+    const dataGroup = new FormGroup({
+      'name': new FormControl(),
+      'amount' : new FormControl()
+    });
+    (<FormArray> this.recipeGroup.get('ingredients')).push(dataGroup);
+  }
+
   onSubmit(){
     console.log(this.recipeGroup);
   }
-  
+
   get controls(){
     return (<FormArray>this.recipeGroup.get('ingredients')).controls;
   }
