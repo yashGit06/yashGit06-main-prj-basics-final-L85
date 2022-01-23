@@ -32,7 +32,7 @@ export class HeaderComponent {
   }
 
   onFetchData(){
-    this.httpService.fetchRecipes();
+    this.httpService.fetchRecipes().subscribe();
   }
 
 }
