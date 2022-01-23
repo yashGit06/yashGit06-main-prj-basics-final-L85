@@ -1,4 +1,5 @@
 import { Component, Output, EventEmitter } from '@angular/core';
+import { DataStorageService } from '../shared/data-storage.service';
 
 @Component({
   selector: 'app-header',
@@ -7,6 +8,8 @@ import { Component, Output, EventEmitter } from '@angular/core';
 export class HeaderComponent {
   @Output() rsEmit = new EventEmitter<{ r: boolean, s: boolean }>();
   // @Output() sEmit = new EventEmitter<boolean>();
+
+  constructor(private httpService : DataStorageService){}
 
   value: {
     r: boolean;
@@ -22,6 +25,14 @@ export class HeaderComponent {
       this.value.s = true;
     }
     this.rsEmit.emit(this.value);
+  }
+
+  onSaveData(){
+    this.httpService.storeRecipes();
+  }
+
+  onFetchData(){
+    this.httpService.fetchRecipes();
   }
 
 }
