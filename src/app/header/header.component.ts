@@ -1,20 +1,29 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { AuthService } from '../auth/auth.service';
 import { DataStorageService } from '../shared/data-storage.service';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html'
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit, OnDestroy {
   @Output() rsEmit = new EventEmitter<{ r: boolean, s: boolean }>();
   // @Output() sEmit = new EventEmitter<boolean>();
-
-  constructor(private httpService : DataStorageService){}
-
+  isAuthenticated = false;
+  private subscription : Subscription;
   value: {
     r: boolean;
     s: boolean;
   } = { r: null, s: null };
+
+  constructor(private httpService : DataStorageService, private authService : AuthService){}
+
+  ngOnInit() {
+      this.subscription = this.authService.user.subscribe(userData =>{
+        this.isAuthenticated = !!userData;
+      });
+  }
 
   checkVisible(type: string) {
     if (type === 'recipes') {
@@ -33,6 +42,10 @@ export class HeaderComponent {
 
   onFetchData(){
     this.httpService.fetchRecipes().subscribe();
+  }
+
+  ngOnDestroy(): void {
+      this.subscription.unsubscribe();
   }
 
 }
