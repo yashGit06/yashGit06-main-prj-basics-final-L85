@@ -1,14 +1,15 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-interface AuthResponseData {
+export interface AuthResponseData {
   idToken: string,
   email: string,
   refreshToken: string,
   expiresIn: string,
-  localId: string
+  localId: string,
+  registered?:boolean
 }
 
 @Injectable({
@@ -23,18 +24,31 @@ export class AuthService {
         email: email,
         password: password,
         returnSecureToken: true
-      }).pipe(catchError(errorData => {
-        // console.log(errorData);
-        let appError = "An unknown error occurred!"
+      }).pipe(catchError(this.httpError));
+  }
 
-        if(!errorData.error || !errorData.error.error){
-          return throwError(appError);
-        }
+  login(email: string, password: string) {
+    return this.http.post<AuthResponseData>('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBvH17t1_SD81MZmHDv7Bn5ZQ2faIoI-68', {
+      email: email,
+      password: password,
+      returnSecureToken: true
+    }).pipe(catchError(this.httpError));
+  }
 
-        switch(errorData.error.error.message){
-          case "EMAIL_EXISTS" : appError = "Provide email already exist!"; break;
-        }
-        return throwError(appError);
-      }));
+  httpError(errorData: HttpErrorResponse) {
+    console.log("Error : ",errorData);
+    let appError = "An unknown error occurred!"
+
+    if (!errorData.error || !errorData.error.error) {
+      return throwError(appError);
+    }
+
+    switch (errorData.error.error.message) {
+      case "EMAIL_EXISTS": appError = "Provide email already exist!"; break;
+      case "EMAIL_NOT_FOUND": appError = "Login attempt failed! Provide email not found."; break;
+      case "INVALID_PASSWORD": appError = "Login attempt failed! Provide password is wrong."; break;
+      case "USER_DISABLED": appError = "Login attempt failed! Provide email is disabled."; break;
+    }
+    return throwError(appError);
   }
 }
