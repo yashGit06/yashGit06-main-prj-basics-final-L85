@@ -11,6 +11,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   @Output() rsEmit = new EventEmitter<{ r: boolean, s: boolean }>();
   // @Output() sEmit = new EventEmitter<boolean>();
   isAuthenticated = false;
+  fetchedCount=0;
   private subscription : Subscription;
   value: {
     r: boolean;
@@ -42,6 +43,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   onFetchData(){
     this.httpService.fetchRecipes().subscribe();
+    this.fetchedCount++;
+  }
+
+  onLogout(){
+    this.authService.logout();
+    // this.isAuthenticated = false;
   }
 
   ngOnDestroy(): void {
