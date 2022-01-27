@@ -92,9 +92,9 @@ export class AuthService {
 
     switch (errorData.error.error.message) {
       case "EMAIL_EXISTS": appError = "Provide email already exist!"; break;
-      case "EMAIL_NOT_FOUND": appError = "Login attempt failed! Provide email not found."; break;
-      case "INVALID_PASSWORD": appError = "Login attempt failed! Provide password is wrong."; break;
-      case "USER_DISABLED": appError = "Login attempt failed! Provide email is disabled."; break;
+      case "EMAIL_NOT_FOUND": appError = "Login attempt failed! Provided email not found."; break;
+      case "INVALID_PASSWORD": appError = "Login attempt failed! Provided password is wrong."; break;
+      case "USER_DISABLED": appError = "Login attempt failed! Provided email is disabled."; break;
     }
     return throwError(appError);
   }
