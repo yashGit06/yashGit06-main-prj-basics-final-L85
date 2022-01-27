@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ComponentFactoryResolver, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
+import { AlertComponent } from '../shared/alert/alert.component';
+import { PlaceholderDirective } from '../shared/placeholder/placeholder.directive';
 import { AuthResponseData, AuthService } from './auth.service';
 
 @Component({
@@ -9,12 +11,14 @@ import { AuthResponseData, AuthService } from './auth.service';
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.css']
 })
-export class AuthComponent implements OnInit {
+export class AuthComponent implements OnInit, OnDestroy {
   isLoginMode = true;
   isLoading =false;
   appError: string = null;
+  @ViewChild(PlaceholderDirective,{static:false}) alertHost : PlaceholderDirective;
+  subscription : Subscription;
 
-  constructor(private authService: AuthService, private router : Router) { }
+  constructor(private authService: AuthService, private router : Router, private cfr : ComponentFactoryResolver) { }
 
   ngOnInit(): void {
   }
@@ -43,6 +47,7 @@ export class AuthComponent implements OnInit {
     }, errorMessage => {
       this.isLoading = false;
       this.appError = errorMessage;
+      this.showErrorAlert(errorMessage);
     });
 
     authForm.reset();
@@ -50,6 +55,24 @@ export class AuthComponent implements OnInit {
 
   onCloseErrorModal(){
     this.appError=null;
+  }
+
+  private showErrorAlert(message:string){//this method will create the alert modal dynamically
+    const componentFactory = this.cfr.resolveComponentFactory(AlertComponent); //loading the Angular alert component to CRF
+    const alertHostRef = this.alertHost.viewContainerRef; // Getting ViewContainerRef, which helps to create new view, whenever called(here its "placeHolder")
+    alertHostRef.clear(); //clearing the view
+    const componentRef = alertHostRef.createComponent(componentFactory);// loading the view with AlertComponent via crf.
+    componentRef.instance.message=message; //it will load the error message in the component's message 
+    this.subscription = componentRef.instance.closeModal.subscribe(data=>{ // in order to listen to close event, we subscribe to Output Event
+      this.subscription.unsubscribe();
+      alertHostRef.clear();//clearing the view
+    });
+  }
+
+  ngOnDestroy(): void {
+      if(this.subscription){
+        this.subscription.unsubscribe();
+      }
   }
 
 }
