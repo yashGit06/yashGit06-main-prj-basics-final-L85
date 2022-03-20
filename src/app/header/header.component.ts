@@ -13,6 +13,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   // @Output() sEmit = new EventEmitter<boolean>();
   isAuthenticated = false;
   fetchedCount=0;
+  navbarCollapsed =true;
   private subscription : Subscription;
   value: {
     r: boolean;
@@ -50,6 +51,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   onLogout(){
     this.authService.logout();
     this.isAuthenticated = false;
+  }
+
+  toggleNavbarCollapsing(){
+    this.navbarCollapsed = !this.navbarCollapsed;
   }
 
   ngOnDestroy(): void {
