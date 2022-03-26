@@ -57,6 +57,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.navbarCollapsed = !this.navbarCollapsed;
   }
 
+  firstFetch(){
+    return this.fetchedCount>0?true:false
+  }
+
   ngOnDestroy(): void {
       this.subscription.unsubscribe();
   }
