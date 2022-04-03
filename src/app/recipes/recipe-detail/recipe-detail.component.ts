@@ -2,7 +2,6 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Ingredient } from 'src/app/shared/ingredient.model';
-import { ShoppingListService } from 'src/app/shopping-list/shopping-list.service';
 import { Recipe } from '../recipe.model';
 import { RecipeService } from '../recipe.service';
 import * as ShoppingListActions from '../../shopping-list/store/shopping-list.actions';
@@ -17,7 +16,7 @@ export class RecipeDetailComponent implements OnInit {
   // @Input() recipeDataToDisplay:Recipe; //= new Recipe('A Test Rsdsdfdsecipe1', 'This i454334est1', 'https://upload.wikimedia.org/wikipedia/commons/1/15/Recipe_logo.jpeg');
   recipeDataToDisplay:Recipe;
   id : number;
-  constructor(private shoppingListService:ShoppingListService, private route : ActivatedRoute, private recipeService : RecipeService, private router : Router,
+  constructor(private route : ActivatedRoute, private recipeService : RecipeService, private router : Router,
     private store: Store<fromShoppingListReducer.AppState>) { }
 
   ngOnInit() {

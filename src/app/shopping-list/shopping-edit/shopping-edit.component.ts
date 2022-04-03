@@ -3,7 +3,6 @@ import { NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs/Subscription';
 import { Ingredient } from 'src/app/shared/ingredient.model';
-import { ShoppingListService } from '../shopping-list.service';
 import * as ShoppingListActions from '../store/shopping-list.actions';
 import * as fromShoppingListReducer from '../store/shopping-list.reducer';
 
@@ -23,7 +22,7 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
   editedItemIndex:number;
   editItem : Ingredient;
 
-  constructor(private shoppingListService: ShoppingListService, private store: Store<fromShoppingListReducer.AppState>) { }
+  constructor( private store: Store<fromShoppingListReducer.AppState>) { }
 
   ngOnInit() {
     this.subscription = this.store.select('shoppingList').subscribe(state => {
@@ -39,18 +38,6 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
         this.editMode = false;
       }
     });
-    /*
-    this.subscription =this.shoppingListService.startedEditing.subscribe(
-      (index:number)=>{
-        this.editedItemIndex = index;
-        this.editMode = true;
-        this.editItem = this.shoppingListService.getIngredient(index);
-        this.formDataSE.setValue({
-          name: this.editItem.name,
-          amount: this.editItem.amount
-        });
-      });
-      */
   }
 
   // emitInput(name: HTMLInputElement, amount: HTMLInputElement) {
@@ -68,7 +55,6 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
       this.editMode=false;
     }
     else{
-      // this.shoppingListService.updateIngredients(newIng);
       this.store.dispatch(new ShoppingListActions.AddIngredient(newIng)); // dispatch set the data/payload
     }
     this.formDataSE.reset();
@@ -81,7 +67,6 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
   }
 
   onDelete(){
-      // this.shoppingListService.searchAndRemove(this.editedItemIndex);
       this.store.dispatch(new ShoppingListActions.RemoveIngredient());
       this.resetForm();
   }
