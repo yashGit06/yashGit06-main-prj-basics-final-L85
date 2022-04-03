@@ -8,12 +8,17 @@ const initialState = {
     ]
 };
 
-export function shoppingListReducer(state = initialState, action : ShoppingListActions.AddIngredients) {
+export function shoppingListReducer(state = initialState, action : ShoppingListActions.ShoppingListActionsType) {
     switch(action.type){
         case ShoppingListActions.ADD_INGREDIENT : 
         return{
             ...state,
             ingredients : [...state.ingredients,action.payload]     //state.ingredients will have old data, where as in action.payload will have the new data.
+        };
+        case ShoppingListActions.ADD_INGREDIENTS : 
+        return{
+            ...state,
+            ingredients : [...state.ingredients, ...action.payload]
         };
         default : return state;
     }
