@@ -20,6 +20,27 @@ export function shoppingListReducer(state = initialState, action : ShoppingListA
             ...state,
             ingredients : [...state.ingredients, ...action.payload]
         };
+
+        case ShoppingListActions.UPDATE_INGREDIENTS:
+            const searchedIngredient = state.ingredients[action.payload.index];
+            const updatedIngredient = {
+                ...searchedIngredient,
+                ...action.payload.newIng
+            };
+            const updatedIngredients = [...state.ingredients];
+            updatedIngredients[action.payload.index]= updatedIngredient;
+            return{
+                ...state,
+                ingredients : updatedIngredients
+            };
+
+        case ShoppingListActions.REMOVE_INGREDIENTS:
+            const afterRemoveIngredients = state.ingredients.filter((ig,igInx)=> igInx!=action.payload);
+            return{
+                ...state,
+                ingredients : afterRemoveIngredients
+            };
+
         default : return state;
     }
 }
