@@ -6,6 +6,7 @@ import { ShoppingListService } from 'src/app/shopping-list/shopping-list.service
 import { Recipe } from '../recipe.model';
 import { RecipeService } from '../recipe.service';
 import * as ShoppingListActions from '../../shopping-list/store/shopping-list.actions';
+import * as fromShoppingListReducer from '../../shopping-list/store/shopping-list.reducer';
 
 @Component({
   selector: 'app-recipe-detail',
@@ -17,7 +18,7 @@ export class RecipeDetailComponent implements OnInit {
   recipeDataToDisplay:Recipe;
   id : number;
   constructor(private shoppingListService:ShoppingListService, private route : ActivatedRoute, private recipeService : RecipeService, private router : Router,
-    private store: Store<{ shoppingList: { ingredients: Ingredient[] } }>) { }
+    private store: Store<fromShoppingListReducer.AppState>) { }
 
   ngOnInit() {
     this.route.params.subscribe(
