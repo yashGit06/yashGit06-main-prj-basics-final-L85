@@ -15,7 +15,7 @@ const initialState : State = {
 
 export function authReducer(state = initialState, action:AuthActionsVar.AuthActions){
     switch(action.type){
-        case AuthActionsVar.LOGIN:
+        case AuthActionsVar.AUTHENTICATE_SUCCESS:
             const newUser = new User(action.payload.email,action.payload.id,action.payload.token,action.payload.expireIn);
             return {
                 ...state,
@@ -34,10 +34,16 @@ export function authReducer(state = initialState, action:AuthActionsVar.AuthActi
                 authError: null,
                 loadingState : true
             }
-        case AuthActionsVar.LOGIN_FAIL:
+        case AuthActionsVar.AUTHENTICATE_FAIL:
             return{
                 ...state,
                 authError: action.payload,
+                loadingState : false
+            }
+        case AuthActionsVar.SIGNUP_START:
+            return{
+                ...state,
+                authError: null,
                 loadingState : false
             }
         default:

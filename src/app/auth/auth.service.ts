@@ -67,7 +67,7 @@ export class AuthService {
     const loadUser = new User(localData.email, localData.id, localData._token, new Date(localData._tokenExpirationDate));
     if(loadUser.token){
       // this.user.next(loadUser);
-      this.store.dispatch(new AuthActionsVar.Login({email:loadUser.email, id: loadUser.id, token: loadUser.token, expireIn: new Date(localData._tokenExpirationDate) }));
+      this.store.dispatch(new AuthActionsVar.AuthenticateSuccess({email:loadUser.email, id: loadUser.id, token: loadUser.token, expireIn: new Date(localData._tokenExpirationDate) }));
       const expirationDateInNumber = new Date(localData._tokenExpirationDate).getTime() - new Date().getTime();
       this.autoLogout(expirationDateInNumber);
     }
@@ -84,7 +84,7 @@ export class AuthService {
     const expireInDate = new Date(new Date().getTime() + expireIn*1000)
     const newUser = new User(email, id, token, expireInDate);
     // this.user.next(newUser);
-    this.store.dispatch(new AuthActionsVar.Login({ email: email, id: id, token: token, expireIn: expireInDate }));
+    this.store.dispatch(new AuthActionsVar.AuthenticateSuccess({ email: email, id: id, token: token, expireIn: expireInDate }));
     this.autoLogout(expireIn*1000);
     localStorage.setItem('userData',JSON.stringify(newUser));
   }

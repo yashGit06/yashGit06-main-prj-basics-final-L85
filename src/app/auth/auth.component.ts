@@ -38,29 +38,14 @@ export class AuthComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(authForm: NgForm) {
-    let authRequest : Observable<AuthResponseData>;
 
     if (!authForm.valid) { return; }
 
-    this.isLoading = true;
     if (this.isLoginMode) {
-      // authRequest = this.authService.login(authForm.value.email, authForm.value.password);
       this.store.dispatch(new AuthActions.LoginStart({email:authForm.value.email,password:authForm.value.password}));
     } else {
-      authRequest = this.authService.signUp(authForm.value.email, authForm.value.password);
+      this.store.dispatch(new AuthActions.SignupStart({email:authForm.value.email,password:authForm.value.password}));
     }
-
-    // authRequest.subscribe(responseData => {
-    //   console.log(responseData);
-    //   this.isLoading = false;
-    //   this.appError = null;
-    //   this.router.navigate(['/recipes']);
-    // }, errorMessage => {
-    //   this.isLoading = false;
-    //   this.appError = errorMessage;
-    //   this.showErrorAlert(errorMessage);
-    // });
-
     authForm.reset();
   }
 
