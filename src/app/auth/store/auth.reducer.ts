@@ -3,10 +3,14 @@ import * as AuthActionsVar from './auth.actions'
 
 export interface State {
     user : User;
+    authError : string;
+    loadingState : boolean;
 }
 
 const initialState : State = {
-    user : null
+    user : null,
+    authError: null,
+    loadingState : false
 }
 
 export function authReducer(state = initialState, action:AuthActionsVar.AuthActions){
@@ -15,12 +19,26 @@ export function authReducer(state = initialState, action:AuthActionsVar.AuthActi
             const newUser = new User(action.payload.email,action.payload.id,action.payload.token,action.payload.expireIn);
             return {
                 ...state,
-                user: newUser
+                user: newUser,
+                authError: null,
+                loadingState : false
             };
         case AuthActionsVar.LOGOUT:
             return{
                 ...state,
                 user:null
+            }
+        case AuthActionsVar.LOGIN_START:
+            return{
+                ...state,
+                authError: null,
+                loadingState : true
+            }
+        case AuthActionsVar.LOGIN_FAIL:
+            return{
+                ...state,
+                authError: action.payload,
+                loadingState : false
             }
         default:
             return state;
