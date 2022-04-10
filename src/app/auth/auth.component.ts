@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { AlertComponent } from '../shared/alert/alert.component';
 import { PlaceholderDirective } from '../shared/placeholder/placeholder.directive';
-import { AuthResponseData, AuthService } from './auth.service';
+import { AuthService } from './auth.service';
 import * as fromApp from '../store/app.reducer'
 import * as AuthActions from '../auth/store/auth.actions'
 
@@ -50,7 +50,7 @@ export class AuthComponent implements OnInit, OnDestroy {
   }
 
   onCloseErrorModal(){
-    this.appError=null;
+    this.store.dispatch(new AuthActions.ClearError());
   }
 
   private showErrorAlert(message:string){//this method will create the alert modal dynamically
