@@ -6,6 +6,7 @@ import { AuthService } from '../auth/auth.service';
 import { DataStorageService } from '../shared/data-storage.service';
 import * as fromAppReducer from '../store/app.reducer'
 import * as AuthActionsVar from '../auth/store/auth.actions'
+import * as RecipesActionsVar from '../recipes/store/recipe.actions'
 
 @Component({
   selector: 'app-header',
@@ -48,7 +49,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   onFetchData(){
-    this.httpService.fetchRecipes().subscribe();
+    // this.httpService.fetchRecipes().subscribe();
+    this.store.dispatch(new RecipesActionsVar.FetchRecipes());
     this.fetchedCount++;
   }
 
