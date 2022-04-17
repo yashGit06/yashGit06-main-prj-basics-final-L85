@@ -1,12 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Ingredient } from 'src/app/shared/ingredient.model';
+import { map,switchMap } from 'rxjs/operators';
 import { Recipe } from '../recipe.model';
-import { RecipeService } from '../recipe.service';
 import * as ShoppingListActions from '../../shopping-list/store/shopping-list.actions';
 import * as fromAppReducer from '../../store/app.reducer';
-import { map,switchMap } from 'rxjs/operators';
+import * as RecipesActionsVar from '../store/recipe.actions'
 
 @Component({
   selector: 'app-recipe-detail',
@@ -17,7 +16,7 @@ export class RecipeDetailComponent implements OnInit {
   // @Input() recipeDataToDisplay:Recipe; //= new Recipe('A Test Rsdsdfdsecipe1', 'This i454334est1', 'https://upload.wikimedia.org/wikipedia/commons/1/15/Recipe_logo.jpeg');
   recipeDataToDisplay:Recipe;
   id : number;
-  constructor(private route : ActivatedRoute, private recipeService : RecipeService, private router : Router,
+  constructor(private route : ActivatedRoute, private router : Router,
     private store: Store<fromAppReducer.AppState>) { }
 
   ngOnInit() {
@@ -47,7 +46,7 @@ export class RecipeDetailComponent implements OnInit {
   }
 
   onDeleteRecipe(){
-      this.recipeService.searchAndRemove(this.id);
+      this.store.dispatch(new RecipesActionsVar.DeleteRecipe(this.id));
       this.router.navigate(['/recipes'], {relativeTo:this.route});
   }
 

@@ -2,8 +2,6 @@ import { Component, Output, EventEmitter, OnInit, OnDestroy } from '@angular/cor
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { AuthService } from '../auth/auth.service';
-import { DataStorageService } from '../shared/data-storage.service';
 import * as fromAppReducer from '../store/app.reducer'
 import * as AuthActionsVar from '../auth/store/auth.actions'
 import * as RecipesActionsVar from '../recipes/store/recipe.actions'
@@ -25,7 +23,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     s: boolean;
   } = { r: null, s: null };
 
-  constructor(private httpService : DataStorageService, private authService : AuthService, private store: Store<fromAppReducer.AppState>){}
+  constructor(private store: Store<fromAppReducer.AppState>){}
 
   ngOnInit() {
       this.subscription = this.store.select('auth').pipe(map(authData=>authData.user)).subscribe(userData =>{
@@ -45,7 +43,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   onSaveData(){
-    this.httpService.storeRecipes();
+    // this.httpService.storeRecipes();
+    this.store.dispatch(new RecipesActionsVar.StoreRecipe());
   }
 
   onFetchData(){
